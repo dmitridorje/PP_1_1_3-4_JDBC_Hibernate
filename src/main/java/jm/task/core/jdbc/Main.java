@@ -1,25 +1,26 @@
 package jm.task.core.jdbc;
 
 import jm.task.core.jdbc.dao.UserDao;
-import jm.task.core.jdbc.dao.UserDaoJDBCImpl;
+import jm.task.core.jdbc.dao.UserDaoHibernateImpl;
 
 import java.sql.SQLException;
 
 public class Main {
     public static void main(String[] args) throws SQLException {
         // реализуйте алгоритм здесь
-        UserDao userDaoJDBCImpl = new UserDaoJDBCImpl();
+        UserDao userDaoHibernateImpl = new UserDaoHibernateImpl();
 
-        userDaoJDBCImpl.createUsersTable();
+        userDaoHibernateImpl.dropUsersTable();
+        userDaoHibernateImpl.createUsersTable();
+        userDaoHibernateImpl.saveUser("Luka", "Doncic", (byte) 24);
+        userDaoHibernateImpl.saveUser("Anthony", "Davis", (byte) 30);
+        userDaoHibernateImpl.saveUser("Nikola", "Jokic", (byte) 29);
+        userDaoHibernateImpl.saveUser("LeBron", "James", (byte) 39);
 
-        userDaoJDBCImpl.saveUser("Luka", "Doncic", (byte) 24);
-        userDaoJDBCImpl.saveUser("Anthony", "Davis", (byte) 30);
-        userDaoJDBCImpl.saveUser("Nikola", "Jokic", (byte) 29);
-        userDaoJDBCImpl.saveUser("LeBron", "James", (byte) 39);
+        userDaoHibernateImpl.removeUserById(2);
+        System.out.println(userDaoHibernateImpl.getAllUsers());
+        //userDaoHibernateImpl.cleanUsersTable();
+        //userDaoHibernateImpl.dropUsersTable();
 
-        userDaoJDBCImpl.removeUserById(1);
-        System.out.println(userDaoJDBCImpl.getAllUsers());
-        userDaoJDBCImpl.cleanUsersTable();
-        userDaoJDBCImpl.dropUsersTable();
     }
 }
