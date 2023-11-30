@@ -3,10 +3,8 @@ package jm.task.core.jdbc;
 import jm.task.core.jdbc.dao.UserDao;
 import jm.task.core.jdbc.dao.UserDaoJDBCImpl;
 
-import java.sql.SQLException;
-
 public class Main {
-    public static void main(String[] args) throws SQLException {
+    public static void main(String[] args) {
         // реализуйте алгоритм здесь
         UserDao userDaoJDBCImpl = new UserDaoJDBCImpl();
 
@@ -18,7 +16,8 @@ public class Main {
         userDaoJDBCImpl.saveUser("LeBron", "James", (byte) 39);
 
         userDaoJDBCImpl.removeUserById(1);
-        System.out.println(userDaoJDBCImpl.getAllUsers());
+        userDaoJDBCImpl.getAllUsers().forEach(System.out::println);
+
         userDaoJDBCImpl.cleanUsersTable();
         userDaoJDBCImpl.dropUsersTable();
     }
