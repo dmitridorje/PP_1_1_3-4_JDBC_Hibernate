@@ -33,7 +33,6 @@ public class Util {
         if (sessionFactory == null) {
             try {
                 Configuration configuration = new Configuration();
-
                 Properties settings = new Properties();
 
                 // Data Source

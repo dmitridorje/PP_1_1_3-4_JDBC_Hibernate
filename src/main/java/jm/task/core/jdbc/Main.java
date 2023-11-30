@@ -18,9 +18,9 @@ public class Main {
         userDaoHibernateImpl.saveUser("LeBron", "James", (byte) 39);
 
         userDaoHibernateImpl.removeUserById(2);
-        System.out.println(userDaoHibernateImpl.getAllUsers());
-        //userDaoHibernateImpl.cleanUsersTable();
-        //userDaoHibernateImpl.dropUsersTable();
+        userDaoHibernateImpl.getAllUsers().forEach(System.out::println);
+        userDaoHibernateImpl.cleanUsersTable();
+        userDaoHibernateImpl.dropUsersTable();
 
     }
 }
