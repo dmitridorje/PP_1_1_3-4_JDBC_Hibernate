@@ -16,8 +16,10 @@ public class UserDaoJDBCImpl implements UserDao {
         try (Connection conn = Util.getConnection();
              Statement stmt = conn.createStatement()) {
 
+            // Для возраста - TINYINT, т.к. это прямой аналог типа byte в MySQL
+
             String sql = "CREATE TABLE IF NOT EXISTS Users " +
-                    "(id INTEGER not NULL AUTO_INCREMENT, " +
+                    "(id BIGINT not NULL AUTO_INCREMENT, " +
                     " name VARCHAR(64), " +
                     " lastName VARCHAR(64), " +
                     " age TINYINT, " +
@@ -47,6 +49,8 @@ public class UserDaoJDBCImpl implements UserDao {
              PreparedStatement preparedStmt = conn.prepareStatement(sql)) {
             preparedStmt.setString(1, name);
             preparedStmt.setString(2, lastName);
+
+            // Для возраста - setByte
             preparedStmt.setByte(3, age);
             preparedStmt.executeUpdate();
             System.out.printf("User с именем %s добавлен в базу данных\n", name);
@@ -79,6 +83,8 @@ public class UserDaoJDBCImpl implements UserDao {
                 user.setId(rs.getLong("id"));
                 user.setName(rs.getString("name"));
                 user.setLastName(rs.getString("lastName"));
+
+                // Для возраста - getByte
                 user.setAge(rs.getByte("age"));
                 allUsers.add(user);
             }

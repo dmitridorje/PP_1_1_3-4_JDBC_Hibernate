@@ -1,24 +1,24 @@
 package jm.task.core.jdbc;
 
-import jm.task.core.jdbc.dao.UserDao;
-import jm.task.core.jdbc.dao.UserDaoJDBCImpl;
+import jm.task.core.jdbc.service.UserService;
+import jm.task.core.jdbc.service.UserServiceImpl;
 
 public class Main {
     public static void main(String[] args) {
         // реализуйте алгоритм здесь
-        UserDao userDaoJDBCImpl = new UserDaoJDBCImpl();
+        UserService userServiceImpl = new UserServiceImpl();
 
-        userDaoJDBCImpl.createUsersTable();
+        userServiceImpl.createUsersTable();
 
-        userDaoJDBCImpl.saveUser("Luka", "Doncic", (byte) 24);
-        userDaoJDBCImpl.saveUser("Anthony", "Davis", (byte) 30);
-        userDaoJDBCImpl.saveUser("Nikola", "Jokic", (byte) 29);
-        userDaoJDBCImpl.saveUser("LeBron", "James", (byte) 39);
+        userServiceImpl.saveUser("Luka", "Doncic", (byte) 24);
+        userServiceImpl.saveUser("Anthony", "Davis", (byte) 30);
+        userServiceImpl.saveUser("Nikola", "Jokic", (byte) 29);
+        userServiceImpl.saveUser("LeBron", "James", (byte) 39);
 
-        userDaoJDBCImpl.removeUserById(1);
-        userDaoJDBCImpl.getAllUsers().forEach(System.out::println);
+        userServiceImpl.removeUserById(1);
+        userServiceImpl.getAllUsers().forEach(System.out::println);
 
-        userDaoJDBCImpl.cleanUsersTable();
-        userDaoJDBCImpl.dropUsersTable();
+        userServiceImpl.cleanUsersTable();
+        userServiceImpl.dropUsersTable();
     }
 }
