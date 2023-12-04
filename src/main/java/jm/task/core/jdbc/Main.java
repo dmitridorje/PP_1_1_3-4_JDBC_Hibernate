@@ -9,15 +9,13 @@ public class Main {
         UserService userServiceImpl = new UserServiceImpl();
 
         userServiceImpl.createUsersTable();
-
         userServiceImpl.saveUser("Luka", "Doncic", (byte) 24);
         userServiceImpl.saveUser("Anthony", "Davis", (byte) 30);
         userServiceImpl.saveUser("Nikola", "Jokic", (byte) 29);
         userServiceImpl.saveUser("LeBron", "James", (byte) 39);
-
-        userServiceImpl.removeUserById(1);
+      
+        userServiceImpl.removeUserById(2);
         userServiceImpl.getAllUsers().forEach(System.out::println);
-
         userServiceImpl.cleanUsersTable();
         userServiceImpl.dropUsersTable();
     }
