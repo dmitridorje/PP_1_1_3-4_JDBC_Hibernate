@@ -29,7 +29,7 @@ public class Util {
     // настройка соединения для Hibernate
     private static SessionFactory sessionFactory;
 
-    public static SessionFactory getSessionFactory() throws Exception {
+    public static SessionFactory getSessionFactory() {
         if (sessionFactory == null) {
             try {
                 Configuration configuration = new Configuration();
@@ -41,8 +41,7 @@ public class Util {
                 settings.put(Environment.USER, USERNAME);
                 settings.put(Environment.PASS, PASSWORD);
 
-                //Hinernate
-                //settings.put(Environment.SHOW_SQL, "true");
+                //Hibernate
                 settings.put(Environment.CURRENT_SESSION_CONTEXT_CLASS, "thread");
                 settings.put(Environment.DIALECT, HIBER_DIALECT);
                 settings.put(Environment.HBM2DDL_AUTO, "create-drop");

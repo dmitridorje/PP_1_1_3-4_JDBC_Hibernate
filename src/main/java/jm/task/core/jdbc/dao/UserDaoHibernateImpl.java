@@ -2,18 +2,15 @@ package jm.task.core.jdbc.dao;
 
 import jm.task.core.jdbc.model.User;
 import jm.task.core.jdbc.util.Util;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.hibernate.Query;
 
-//import javax.persistence.Query;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
 import java.util.ArrayList;
 import java.util.List;
 
 public class UserDaoHibernateImpl implements UserDao {
+
     public UserDaoHibernateImpl() {
 
     }
@@ -21,18 +18,17 @@ public class UserDaoHibernateImpl implements UserDao {
     @Override
     public void createUsersTable() {
         String sql = "CREATE TABLE IF NOT EXISTS Users " +
-                "(id INTEGER not NULL AUTO_INCREMENT, " +
+                "(id BIGINT not NULL AUTO_INCREMENT, " +
                 " name VARCHAR(64), " +
                 " lastName VARCHAR(64), " +
-                " age INTEGER, " +
+                " age TINYINT, " +
                 " PRIMARY KEY ( id ))";
         Transaction transaction = null;
 
         try (Session session = Util.getSessionFactory().getCurrentSession()) {
             transaction = session.beginTransaction();
-            Query query = session.createSQLQuery(sql).addEntity(User.class);
-            query.executeUpdate();
-            session.getTransaction().commit();
+            session.createSQLQuery(sql).executeUpdate();
+            transaction.commit();
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
@@ -48,9 +44,8 @@ public class UserDaoHibernateImpl implements UserDao {
 
         try (Session session = Util.getSessionFactory().getCurrentSession()) {
             transaction = session.beginTransaction();
-            Query query = session.createSQLQuery(sql).addEntity(User.class);
-            query.executeUpdate();
-            session.getTransaction().commit();
+            session.createSQLQuery(sql).executeUpdate();
+            transaction.commit();
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
@@ -68,7 +63,7 @@ public class UserDaoHibernateImpl implements UserDao {
             transaction = session.beginTransaction();
             session.save(user);
             System.out.printf("User с именем %s добавлен в базу данных\n", name);
-            session.getTransaction().commit();
+            transaction.commit();
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
@@ -83,9 +78,9 @@ public class UserDaoHibernateImpl implements UserDao {
 
         try (Session session = Util.getSessionFactory().getCurrentSession()) {
             transaction = session.beginTransaction();
-            User userToBeRemoved = session.get(User.class, (long) id);
+            User userToBeRemoved = session.get(User.class, id);
             session.remove(userToBeRemoved);
-            session.getTransaction().commit();
+            transaction.commit();
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
@@ -99,13 +94,11 @@ public class UserDaoHibernateImpl implements UserDao {
         Transaction transaction = null;
         List<User> allUsers = new ArrayList<>();
 
-
         try (Session session = Util.getSessionFactory().getCurrentSession()) {
             transaction = session.beginTransaction();
             Query<User> query = session.createQuery("from User");
             allUsers = query.list();
-            session.getTransaction().commit();
-
+            transaction.commit();
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
@@ -122,9 +115,8 @@ public class UserDaoHibernateImpl implements UserDao {
 
         try (Session session = Util.getSessionFactory().getCurrentSession()) {
             transaction = session.beginTransaction();
-            Query query = session.createQuery(hql);
-            int a = query.executeUpdate();
-            session.getTransaction().commit();
+            session.createQuery(hql).executeUpdate();
+            transaction.commit();
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
