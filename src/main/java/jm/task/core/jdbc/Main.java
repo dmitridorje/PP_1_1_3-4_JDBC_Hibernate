@@ -13,11 +13,10 @@ public class Main {
         userServiceImpl.saveUser("Anthony", "Davis", (byte) 30);
         userServiceImpl.saveUser("Nikola", "Jokic", (byte) 29);
         userServiceImpl.saveUser("LeBron", "James", (byte) 39);
-
+      
         userServiceImpl.removeUserById(2);
         userServiceImpl.getAllUsers().forEach(System.out::println);
         userServiceImpl.cleanUsersTable();
         userServiceImpl.dropUsersTable();
-
     }
 }

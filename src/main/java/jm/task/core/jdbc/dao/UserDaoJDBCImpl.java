@@ -16,11 +16,13 @@ public class UserDaoJDBCImpl implements UserDao {
         try (Connection conn = Util.getConnection();
              Statement stmt = conn.createStatement()) {
 
-            String sql = "CREATE TABLE IF NOT EXISTS USERS " +
-                    "(id INTEGER not NULL AUTO_INCREMENT, " +
+            // Для возраста - TINYINT, т.к. это прямой аналог типа byte в MySQL
+
+            String sql = "CREATE TABLE IF NOT EXISTS Users " +
+                    "(id BIGINT not NULL AUTO_INCREMENT, " +
                     " name VARCHAR(64), " +
                     " lastName VARCHAR(64), " +
-                    " age INTEGER, " +
+                    " age TINYINT, " +
                     " PRIMARY KEY ( id ))";
 
             stmt.executeUpdate(sql);
@@ -33,7 +35,7 @@ public class UserDaoJDBCImpl implements UserDao {
         try (Connection conn = Util.getConnection();
              Statement stmt = conn.createStatement()) {
 
-            String sql = "DROP TABLE IF EXISTS USERS;";
+            String sql = "DROP TABLE IF EXISTS Users;";
             stmt.executeUpdate(sql);
         } catch (SQLException e) {
             e.printStackTrace();
@@ -41,13 +43,15 @@ public class UserDaoJDBCImpl implements UserDao {
     }
 
     public void saveUser(String name, String lastName, byte age) {
-        String sql = "INSERT INTO USERS (name, lastName, age) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO Users (name, lastName, age) VALUES (?, ?, ?)";
 
         try (Connection conn = Util.getConnection();
              PreparedStatement preparedStmt = conn.prepareStatement(sql)) {
             preparedStmt.setString(1, name);
             preparedStmt.setString(2, lastName);
-            preparedStmt.setByte((int) 3, age);
+
+            // Для возраста - setByte
+            preparedStmt.setByte(3, age);
             preparedStmt.executeUpdate();
             System.out.printf("User с именем %s добавлен в базу данных\n", name);
         } catch (SQLException e) {
@@ -56,7 +60,7 @@ public class UserDaoJDBCImpl implements UserDao {
     }
 
     public void removeUserById(long id) {
-        String sql = "DELETE FROM USERS WHERE id=?";
+        String sql = "DELETE FROM Users WHERE id=?";
         try (Connection conn = Util.getConnection();
              PreparedStatement preparedStmt = conn.prepareStatement(sql)) {
             preparedStmt.setLong(1, id);
@@ -68,7 +72,7 @@ public class UserDaoJDBCImpl implements UserDao {
 
     public List<User> getAllUsers() {
         List<User> allUsers = new ArrayList<>();
-        String sql = "SELECT id, name, lastName, age FROM USERS";
+        String sql = "SELECT id, name, lastName, age FROM Users";
 
         try (Connection conn = Util.getConnection();
              Statement stmt = conn.createStatement();
@@ -76,9 +80,11 @@ public class UserDaoJDBCImpl implements UserDao {
 
             while (rs.next()) {
                 User user = new User();
-                user.setId(rs.getLong("ID"));
+                user.setId(rs.getLong("id"));
                 user.setName(rs.getString("name"));
                 user.setLastName(rs.getString("lastName"));
+
+                // Для возраста - getByte
                 user.setAge(rs.getByte("age"));
                 allUsers.add(user);
             }
@@ -89,7 +95,7 @@ public class UserDaoJDBCImpl implements UserDao {
     }
 
     public void cleanUsersTable() {
-        String query = "DELETE FROM USERS";
+        String query = "DELETE FROM Users";
         try (Connection conn = Util.getConnection();
             Statement stmt = conn.createStatement()){
             stmt.executeUpdate(query);
