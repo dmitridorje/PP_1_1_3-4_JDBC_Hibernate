@@ -2,10 +2,10 @@ package jm.task.core.jdbc.dao;
 
 import jm.task.core.jdbc.model.User;
 import jm.task.core.jdbc.util.Util;
-import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import javax.persistence.TypedQuery;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -95,8 +95,8 @@ public class UserDaoHibernateImpl implements UserDao {
         try (Session session = Util.getSessionFactory().openSession()) {
 
             //Параметризуем Query, чтобы избежать сырых типов
-            Query<User> query = session.createQuery("from User");
-            allUsers = query.list();
+            TypedQuery<User> typedQuery = session.createQuery("from User");
+            allUsers = typedQuery.getResultList();
         } catch (Exception e) {
             e.printStackTrace();
         }
