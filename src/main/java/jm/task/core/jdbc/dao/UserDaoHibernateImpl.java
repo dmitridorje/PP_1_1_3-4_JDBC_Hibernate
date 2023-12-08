@@ -91,11 +91,10 @@ public class UserDaoHibernateImpl implements UserDao {
 
     @Override
     public List<User> getAllUsers() {
+        String hql = "from User";
         List<User> allUsers = new ArrayList<>();
         try (Session session = Util.getSessionFactory().openSession()) {
-
-            //Параметризуем Query, чтобы избежать сырых типов
-            TypedQuery<User> typedQuery = session.createQuery("from User");
+            TypedQuery<User> typedQuery = session.createQuery(hql, User.class);
             allUsers = typedQuery.getResultList();
         } catch (Exception e) {
             e.printStackTrace();
